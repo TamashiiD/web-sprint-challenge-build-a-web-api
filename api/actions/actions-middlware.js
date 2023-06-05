@@ -25,9 +25,16 @@ catch(err){
   
   function validateUser(req, res, next) {
     // DO YOUR MAGIC 
-    // req.body = {"notes" : notes , "description": description, "completed": completed, "project_id": project_id}
+    const {notes, description, completed, project_id} = req.body 
 
-    next()
+    if (!notes) {
+        res.status(400).json({ message: 'must include project notes' })
+    }
+    else {
+        req.body = {"completed": completed, "description": description, "notes" : notes, "project_id": project_id}
+        next()
+    }
+    
   }
   
   function validatePost(req, res, next) {

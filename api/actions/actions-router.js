@@ -1,7 +1,7 @@
 // Write your "actions" router here!
 const router = require('express').Router()
 const Action = require('./actions-model')
-const { logger, validateUser, validateUserId, validatePost } = require('./actions-middlware')
+const { validateUser, validateUserId, validatePost } = require('./actions-middlware')
 
 router.get( '/' , (req, res)=> {
     Action.get()
@@ -33,6 +33,20 @@ catch(err){
         stack: err.stack,
        })
 }
+})
+
+router.post('/' , validateUser , (req, res)=> {
+   Action.insert(req.body)
+.then(newaction => {
+    res.status(201).json(newaction)
+})
+.catch(err=> {
+    res.status(400).json({
+        message: 'BIG ERROR',
+        err: err.message,
+        stack: err.stack,
+       })
+} )
 })
 
 module.exports = router 
