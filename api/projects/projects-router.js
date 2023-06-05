@@ -36,7 +36,7 @@ projectsModel.insert(req.body)
        })
 })
 })
-
+// SOMETHING WRONG WITH THIS, IT WORKS IN ACTIONS BUT DOESNT WORK IN PROJECTS
 router.put('/:id', validatePost, validateUserId, (req, res)=> {
     projectsModel.update(req.params.id, req.body)
    .then(updateproject=> {
@@ -64,9 +64,19 @@ catch(err){
        })
 }
 })
-
+//HAVE NO IDEA WHAT IM DOING HERE JUST THREW THIS TOGETHER NEED HELP!
 router.get(':id/actions', validateUserId, validateUser, (req, res)=>{
-    projectsModel.getProjectActions()
+    projectsModel.getProjectActions(req.params.id, req.body)
+    .then(report=> {
+        res.status(200).json(report)
+    })
+    .catch(err=>{
+        res.status(400).json({
+            message: 'BIG ERROR',
+            err: err.message,
+            stack: err.stack,
+           })
+    })
 })
 
 

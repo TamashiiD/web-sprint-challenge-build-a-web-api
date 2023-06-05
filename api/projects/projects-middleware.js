@@ -26,7 +26,7 @@ function validateUser(req, res, next) {
     // DO YOUR MAGIC 
     const { name, description, completed } = req.body
     if (!name || !description || !completed) {
-        res.status(400).json({ message: 'must include project notes?' })
+        res.status(400).json({ message: 'MISSING SOMETHING' })
     }
     else {
         req.body = { "name": name, "description": description, "completed": completed }
@@ -36,15 +36,18 @@ function validateUser(req, res, next) {
 }
 
 function validatePost(req, res, next) {
-    // DO YOUR MAGIC 
     const { name, description, completed } = req.body
-    if(!name && !description && !completed){
-        res.status(400).json({message: "missing name"})
-    } 
-    else{
-    req.body = { "completed": completed, "description": description, "name": name }
-    next()
+    if (!completed && !description && !name) {
+        res.status(400).json({ message: "Missing required properties: completed, description, or name" })
     }
+    else {
+        req.body = {
+            "completed": completed,
+            "description": description,
+            "name": name,
+        }
+       next()
+    } 
 
 }
 
