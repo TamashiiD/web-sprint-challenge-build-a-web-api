@@ -4,46 +4,45 @@ const Projects = require('./projects-model')
 function logger(req, res, next) {
     // DO YOUR MAGIC 
     next()
-  }
-  
-  async function validateUserId(req, res, next) {
-try{
-    const project = await Projects.get(req.params.id)
-    if(!project){
-        res.status(404).json({message: "no such project"})
+}
+
+async function validateUserId(req, res, next) {
+    try {
+        const project = await Projects.get(req.params.id)
+        if (!project) {
+            res.status(404).json({ message: "no such project" })
+        }
+        else {
+            req.project = project
+            next()
+        }
     }
-    else{
-        req.project = project 
+    catch (err) {
+        res.status(500).json({ message: 'no such project' })
+    }
+}
+
+function validateUser(req, res, next) {
+    // DO YOUR MAGIC 
+    const { name, description, completed} = req.body
+    if (!name || !description || !completed ) {
+        res.status(400).json({ message: 'must include project notes?' })
+    }
+    else {
+        req.body = {"name" : name , "description": description, "completed": completed}
         next()
     }
+
 }
-catch(err){
-    res.status(500).json({message:'no such project'})
-}
-  }
-  
-  function validateUser(req, res, next) {
+
+function validatePost(req, res, next) {
     // DO YOUR MAGIC 
-    const {project} = req.body
-    if (!project || !project.trim()){
-res.status(400).json({message: 'must include project name?'})
-    }
-    else{
-req.project = project.trim() 
- next()
-    }
-  
-  }
-  
-  function validatePost(req, res, next) {
-    // DO YOUR MAGIC 
-    
+
     next()
-  }
-  
-  // do not forget to expose these functions to other modules
-  module.exports = {
+}
+
+// do not forget to expose these functions to other modules
+module.exports = {
     logger, validateUserId, validateUser, validatePost
-  }
-  
-  
+}
+

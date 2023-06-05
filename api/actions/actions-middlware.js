@@ -25,6 +25,8 @@ catch(err){
   
   function validateUser(req, res, next) {
     // DO YOUR MAGIC 
+    // req.body = {"notes" : notes , "description": description, "completed": completed, "project_id": project_id}
+
     next()
   }
   

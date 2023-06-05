@@ -24,7 +24,7 @@ res.json(req.project)
 })
 
 router.post('/', validateUser, (req, res)=>{
-projectsModel.insert({name: req.projects})
+projectsModel.insert(req.body)
 .then(newproject => {
     res.status(201).json(newproject)
 })
@@ -65,4 +65,8 @@ catch(err){
 }
 })
 
+// router.get('/:id/actions', validateUserId, (req, res)=> {
+//     res.json(req.action)
+// }
+// )
 module.exports = router
