@@ -37,18 +37,18 @@ projectsModel.insert(req.body)
 })
 })
 
-router.put('./:id' ,validateUser, validateUserId, (req, res)=> {
-projectsModel.update(req.projects)
-.then( edit => {
-      res.status(200).json(edit)
-})
-.catch(err=>{
+router.put('/:id', validatePost, validateUserId, (req, res)=> {
+    projectsModel.update(req.params.id, req.body)
+   .then(updateproject=> {
+     res.status(200).json(updateproject)
+   })
+   .catch(err=> {
     res.status(400).json({
         message: 'BIG ERROR',
         err: err.message,
         stack: err.stack,
        })
-})
+   })
 })
 
 router.delete('/:id', validateUserId, async (req, res) =>{
@@ -64,6 +64,12 @@ catch(err){
        })
 }
 })
+
+router.get(':id/actions', validateUserId, validateUser, (req, res)=>{
+    projectsModel.getProjectActions()
+})
+
+
 
 // router.get('/:id/actions', validateUserId, (req, res)=> {
 //     res.json(req.action)

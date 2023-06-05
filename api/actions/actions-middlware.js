@@ -39,8 +39,16 @@ catch(err){
   
   function validatePost(req, res, next) {
     // DO YOUR MAGIC 
-    
-    next()
+    const {notes, description, completed, project_id} = req.body 
+
+    if (!notes || !description || !completed || !project_id) {
+        res.status(400).json({ message: 'the request body is missing name, description or completed' })
+    }
+    else {
+        req.body = {"completed": completed, "description": description, "notes" : notes, "project_id": project_id}
+        next()
+    }
+  
   }
   
   // do not forget to expose these functions to other modules

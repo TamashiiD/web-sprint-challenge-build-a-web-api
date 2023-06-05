@@ -49,4 +49,19 @@ router.post('/' , validateUser , (req, res)=> {
 } )
 })
 
+
+router.put('/:id', validatePost, validateUserId, (req, res)=> {
+    Action.update(req.params.id, req.body)
+  
+   .then(update=> {
+     res.status(200).json(update)
+   })
+   .catch(err=> {
+    res.status(400).json({
+        message: 'BIG ERROR',
+        err: err.message,
+        stack: err.stack,
+       })
+   })
+})
 module.exports = router 

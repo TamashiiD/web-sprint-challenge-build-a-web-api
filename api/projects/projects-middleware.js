@@ -24,12 +24,12 @@ async function validateUserId(req, res, next) {
 
 function validateUser(req, res, next) {
     // DO YOUR MAGIC 
-    const { name, description, completed} = req.body
-    if (!name || !description || !completed ) {
+    const { name, description, completed } = req.body
+    if (!name || !description || !completed) {
         res.status(400).json({ message: 'must include project notes?' })
     }
     else {
-        req.body = {"name" : name , "description": description, "completed": completed}
+        req.body = { "name": name, "description": description, "completed": completed }
         next()
     }
 
@@ -37,8 +37,15 @@ function validateUser(req, res, next) {
 
 function validatePost(req, res, next) {
     // DO YOUR MAGIC 
-
+    const { name, description, completed } = req.body
+    if(!name && !description && !completed){
+        res.status(400).json({message: "missing name"})
+    } 
+    else{
+    req.body = { "completed": completed, "description": description, "name": name }
     next()
+    }
+
 }
 
 // do not forget to expose these functions to other modules
