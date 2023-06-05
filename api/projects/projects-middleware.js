@@ -37,10 +37,14 @@ function validateUser(req, res, next) {
 
 function validatePost(req, res, next) {
     const { name, description, completed } = req.body
-    if (!completed && !description && !name) {
-        res.status(400).json({ message: "Missing required properties: completed, description, or name" })
+
+    if (!completed || !description || !name) {
+        res.status(400).json({ "completed": false,
+       "description": "Lady Gaga",
+       "name": "a" })
+       
     }
-    else {
+    else { 
         req.body = {
             "completed": completed,
             "description": description,
