@@ -14,6 +14,7 @@ async function validateUserId(req, res, next) {
         }
         else {
             req.project = project
+            console.log('VALIDATED')
             next()
         }
     }
@@ -25,7 +26,7 @@ async function validateUserId(req, res, next) {
 function validateUser(req, res, next) {
     // DO YOUR MAGIC 
     const { name, description, completed } = req.body
-    if (!name || !description || !completed) {
+    if (!name || !description || completed=== undefined) {
         res.status(400).json({ message: 'MISSING SOMETHING' })
     }
     else {
@@ -38,11 +39,13 @@ function validateUser(req, res, next) {
 function validatePost(req, res, next) {
     const { name, description, completed } = req.body
 
-    if (!completed || !description || !name) {
-        res.status(400).json({ "completed": false,
-       "description": "Lady Gaga",
-       "name": "a" })
-       
+    if (completed === undefined || !description || !name) {
+        
+        res.status(400).json({ message: "missing Something" })
+
+        // "completed": false,
+        // "description": "Lady Gaga",
+        // "name": "a"
     }
     else { 
         req.body = {
@@ -55,8 +58,22 @@ function validatePost(req, res, next) {
 
 }
 
+function validateActions (req, res, next){
+    // i need to validate the id for the user , then check if there is an actions array. if not return empty array. if there is, return the actions array. 
+console.log("ACTIONS ---> " , req.body.actions)
+  const {actions} = req.body
+  if(actions === [] ){
+    actions = []
+    next()
+  }
+  else{
+   actions = [actions]
+    next()
+  }
+}
+
 // do not forget to expose these functions to other modules
 module.exports = {
-    logger, validateUserId, validateUser, validatePost
+    logger, validateUserId, validateUser, validatePost, validateActions
 }
 

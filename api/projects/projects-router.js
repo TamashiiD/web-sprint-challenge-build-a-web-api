@@ -1,7 +1,7 @@
 // Write your "projects" router here!
 const router = require('express').Router()
 const projectsModel = require('./projects-model')
-const { validateUser, validateUserId, validatePost } = require('./projects-middleware')
+const {validateActions, validateUser, validateUserId, validatePost } = require('./projects-middleware')
 
 
 router.get( '/' , (req, res)=> {
@@ -65,18 +65,12 @@ catch(err){
 }
 })
 //HAVE NO IDEA WHAT IM DOING HERE JUST THREW THIS TOGETHER NEED HELP!
-router.get(':id/actions', validateUserId, validateUser, (req, res)=>{
-    projectsModel.getProjectActions(req.params.id, req.body)
-    .then(report=> {
-        res.status(200).json(report)
-    })
-    .catch(err=>{
-        res.status(400).json({
-            message: 'BIG ERROR',
-            err: err.message,
-            stack: err.stack,
-           })
-    })
+router.get('/:id/actions', validateUserId, (req, res)=>{
+projectsModel.getProjectActions(req.params.id)
+.then(actions=>{
+    res.json(actions)
+})
+.catch(err=>{console.log(err)})
 })
 
 
